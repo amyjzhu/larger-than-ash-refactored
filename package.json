@@ -1,0 +1,36 @@
+{
+  "name": "larger-than-ash",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "install": "npm i & npm i browserify -g",
+    "build": "tsc & browserify src/main.js > src/index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^6.0.81",
+    "node": "0.0.0",
+    "typescript": "^2.4.1"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.0.1",
+    "@types/jasmine": "^2.5.53",
+    "browserify": "^14.4.0",
+    "chai": "^4.1.0",
+    "jasmine": "^2.6.0",
+    "jasmine-core": "^2.6.4",
+    "karma": "^1.7.0",
+    "karma-chai": "^0.1.0",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-cli": "^1.0.1",
+    "karma-firefox-launcher": "^1.0.1",
+    "karma-html": "^1.0.3",
+    "karma-jasmine": "^1.1.0"
+  }
+}
