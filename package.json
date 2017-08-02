@@ -7,7 +7,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "browserify test/main.test.js > test/browser.test.js & karma start",
     "install": "npm i & npm i browserify -g",
     "build": "tsc & browserify src/main.js > src/index.js"
   },
