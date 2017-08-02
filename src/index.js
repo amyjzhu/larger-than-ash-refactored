@@ -7483,13 +7483,17 @@ function extend() {
 
 },{}],37:[function(require,module,exports){
 "use strict";
+/**
+ * Created by gijin on 2017-08-02.
+ */
 Object.defineProperty(exports, "__esModule", { value: true });
-let field = document.getElementById("pokemon");
-let button = document.getElementById("submit");
 class Runner {
-    constructor() {
+    constructor(field, button, response) {
         this.ASH_HEIGHT = 16.8; // 10cm units
         this.ASH_WEIGHT = 430; // 100g units
+        this.field = field;
+        this.button = button;
+        this.response = response;
     }
     findPokemon(that) {
         let input = that.retrieveInput();
@@ -7502,7 +7506,7 @@ class Runner {
     retrieveInput() {
         //retrieveInput = function () {
         // retrieves pokemon_name after something has been entered into the field
-        let pokemon_name = field.value;
+        let pokemon_name = this.field.value;
         this.display("Searching " + pokemon_name + "...");
         if (/^\s*&/.test(pokemon_name)) {
             this.display("Please enter an input into the text field!");
@@ -7561,11 +7565,19 @@ class Runner {
         return n.charAt(0).toUpperCase() + n.slice(1);
     }
     display(res) {
-        document.getElementById("response").innerHTML = res;
+        this.response.innerHTML = res;
     }
 }
 exports.default = Runner;
-let r = new Runner();
-button.onclick = () => { r.findPokemon(r); };
 
-},{"http":27}]},{},[37]);
+},{"http":27}],38:[function(require,module,exports){
+"use strict";
+const Runner_1 = require("./Runner");
+let field = document.getElementById("pokemon");
+let button = document.getElementById("submit");
+let response = document.getElementById("response");
+let r = new Runner_1.default(field, button, response);
+button.onclick = () => { r.findPokemon(r); };
+module.exports = {};
+
+},{"./Runner":37}]},{},[38]);
