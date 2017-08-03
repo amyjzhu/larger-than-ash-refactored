@@ -27,19 +27,20 @@ export default class Runner {
     }
 
     retrieveInput(): string {
-        //retrieveInput = function () {
         // retrieves pokemon_name after something has been entered into the field
         let pokemon_name: string = (<HTMLInputElement>this.field).value;
         this.display("Searching " + pokemon_name + "...");
 
-        if (/^\s*&/.test(pokemon_name)) {
+        /*if (/^\s*&/.test(pokemon_name)) {
             this.display("Please enter an input into the text field!");
-        }
+        }*/
 
-        // prepare query on pokeapi
+        return this.prepareQuery(pokemon_name);
+    }
+
+    prepareQuery(pokemon : string) : string {
         let base_string = "http://pokeapi.co/api/v2/pokemon/";
-        let query = base_string + pokemon_name.toLowerCase();
-
+        let query = base_string + pokemon.toLowerCase();
         return query;
     }
 
