@@ -2,4 +2,6 @@ node_modules/
 
 #ignore transpiled js files
 /src/*.js
+/src/**/*.js
 /test/*.js
+/test/**/*.js
