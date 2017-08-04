@@ -1,7 +1,3 @@
-/**
- * Created by gijin on 2017-08-02.
- */
-
 export default class Runner {
 
 
@@ -12,12 +8,26 @@ export default class Runner {
     button: HTMLElement;
     response : HTMLElement;
 
+    /*
+     * Creates a new Runner object.
+     *
+     * @param {HTMLElement} field The field in which you enter your response
+     * @param {HTMLElement} button The button to associate the handler with
+     * @param {HTMLElement} response The element where you want to display the results
+     */
     constructor(field : HTMLElement, button : HTMLElement, response : HTMLElement) {
         this.field = field;
         this.button = button;
         this.response = response;
     }
 
+    /*
+     * The main handler for when a button is clicked
+     * Retrieves input from the field and queries it to Pokeapi
+     *
+     * @param {Runner} that The Runner instance to which this method belongs
+     * @throws Any exceptions
+     */
     findPokemon(that : Runner) {
         let input = that.retrieveInput();
         that.getPokemonInfo(input).then( (result : string) => {
@@ -27,14 +37,25 @@ export default class Runner {
         });
     }
 
+
+    /*
+     * Retrieves the Pokemon name (or number) after it has been entered into the field
+     *
+     * @return {string} the Pokemon name
+     */
     retrieveInput(): string {
-        // retrieves pokemon_name after something has been entered into the field
         let pokemon_name: string = (<HTMLInputElement>this.field).value;
         this.display("Searching " + pokemon_name + "...");
 
         return this.prepareQuery(pokemon_name);
     }
 
+
+    /*
+     * Prepares the correct URL from the API to query
+     *
+     * @param {string} pokemon The Pokemon name to query
+     */
     prepareQuery(pokemon : string) : string {
         let base_string = "http://pokeapi.co/api/v2/pokemon/";
         let query = base_string + pokemon.toLowerCase();
@@ -42,6 +63,13 @@ export default class Runner {
     }
 
 
+    /*
+     * Sends the request to the API.
+     * If the Pokemon is nonexistent, reject the Promise and display message
+     *
+     * @param {string} query the URL to get information from
+     * @return {Promise<string|error>} the result of the query or error if failed
+     */
     getPokemonInfo(query: string): Promise<string> {
         let http = require("http");
         return new Promise((fulfill, reject) => {
@@ -70,6 +98,14 @@ export default class Runner {
     }
 
 
+    /*
+     * Using data from query, decide if Pokemon is larger than Ash
+     * and display results on page
+     *
+     * @param {string} data The string result of querying the page (i.e. JSONString)
+     * @return {boolean} true if this pokemon is larger
+     * @throws {error} If an error occurs when attempting to parse data
+     */
     displayResults(data: string): boolean {
 
         let result: any = {};
@@ -100,11 +136,21 @@ export default class Runner {
     }
 
 
+    /*
+     * Capitalizes a word's first letter
+     *
+     * @param {string} n The word to capitalize
+     */
     capitalize(n: string): string {
         return n.charAt(0).toUpperCase() + n.slice(1);
     }
 
 
+    /*
+     * Changes text in Runner's response HTMLElement
+     *
+     * @param {string} res The string to display
+     */
     display(res: string) {
         this.response.innerHTML = res;
     }
