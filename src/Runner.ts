@@ -7,6 +7,7 @@ export default class Runner {
 
     ASH_HEIGHT = 16.8; // 10cm units
     ASH_WEIGHT = 430; // 100g units
+
     field : HTMLElement;
     button: HTMLElement;
     response : HTMLElement;
@@ -30,10 +31,6 @@ export default class Runner {
         // retrieves pokemon_name after something has been entered into the field
         let pokemon_name: string = (<HTMLInputElement>this.field).value;
         this.display("Searching " + pokemon_name + "...");
-
-        /*if (/^\s*&/.test(pokemon_name)) {
-            this.display("Please enter an input into the text field!");
-        }*/
 
         return this.prepareQuery(pokemon_name);
     }
@@ -78,31 +75,28 @@ export default class Runner {
         let result: any = {};
 
         try {
-            let parsedData = JSON.parse(data);
-            result = parsedData;
+            result = JSON.parse(data);
+            if (result === {}) { return false; }
 
             // parse Pokemon data to get height and weight
             // then decide if Ash is bigger
-            if (result !== {}) {
-                let h: number = <number> result["height"];
-                let w: number = <number> result["weight"];
-                let n: string = <string> result["name"];
+            let h: number = <number> result["height"];
+            let w: number = <number> result["weight"];
+            let n: string = <string> result["name"];
 
-                let isLargerThanAsh = false;
-                isLargerThanAsh = (h > this.ASH_HEIGHT && w > this.ASH_WEIGHT);
+            let isLargerThanAsh = false;
+            isLargerThanAsh = (h > this.ASH_HEIGHT && w > this.ASH_WEIGHT);
 
-                let name = this.capitalize(n);
+            let name = this.capitalize(n);
 
-                // display results
-                this.display(name + " is " + ((isLargerThanAsh) ? "larger" : "not larger") + " than Ash!");
-                return isLargerThanAsh;
-            }
+            // display results
+            this.display(name + " is " + ((isLargerThanAsh) ? "larger" : "not larger") + " than Ash!");
+            return isLargerThanAsh;
+
 
         } catch (e) {
             throw (e.message);
         }
-
-        return false;
     }
 
 
