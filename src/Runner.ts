@@ -4,32 +4,32 @@ export default class Runner {
     ASH_HEIGHT = 16.8; // 10cm units
     ASH_WEIGHT = 430; // 100g units
 
-    field : HTMLElement;
+    entryField : HTMLElement;
     button: HTMLElement;
-    response : HTMLElement;
+    responseArea : HTMLElement;
 
     /*
      * Creates a new Runner object.
      *
-     * @param {HTMLElement} field The field in which you enter your response
+     * @param {HTMLElement} entryField The entryField in which you enter your responseArea
      * @param {HTMLElement} button The button to associate the handler with
-     * @param {HTMLElement} response The element where you want to display the results
+     * @param {HTMLElement} responseArea The element where you want to display the results
      */
     constructor(field : HTMLElement, button : HTMLElement, response : HTMLElement) {
-        this.field = field;
+        this.entryField = field;
         this.button = button;
-        this.response = response;
+        this.responseArea = response;
     }
 
     /*
      * The main handler for when a button is clicked
-     * Retrieves input from the field and queries it to Pokeapi
+     * Retrieves input from the entryField and queries it to Pokeapi
      *
      * @param {Runner} that The Runner instance to which this method belongs
      * @throws Any exceptions
      */
     findPokemon(that : Runner) {
-        let input = that.retrieveInput();
+        let input = that.prepareQuery(that.retrieveInput());
         that.getPokemonInfo(input).then( (result : string) => {
             that.displayResults(result);
         }).catch ( ( e : any) => {
@@ -39,15 +39,15 @@ export default class Runner {
 
 
     /*
-     * Retrieves the Pokemon name (or number) after it has been entered into the field
+     * Retrieves the Pokemon name (or number) after it has been entered into the entryField
      *
      * @return {string} the Pokemon name
      */
     retrieveInput(): string {
-        let pokemon_name: string = (<HTMLInputElement>this.field).value;
+        let pokemon_name: string = (<HTMLInputElement>this.entryField).value;
         this.display("Searching " + pokemon_name + "...");
 
-        return this.prepareQuery(pokemon_name);
+        return pokemon_name;
     }
 
 
@@ -114,8 +114,6 @@ export default class Runner {
             result = JSON.parse(data);
             if (result === {}) { return false; }
 
-            // parse Pokemon data to get height and weight
-            // then decide if Ash is bigger
             let h: number = <number> result["height"];
             let w: number = <number> result["weight"];
             let n: string = <string> result["name"];
@@ -147,11 +145,12 @@ export default class Runner {
 
 
     /*
-     * Changes text in Runner's response HTMLElement
+     * Changes text in Runner's responseArea HTMLElement
      *
      * @param {string} res The string to display
      */
     display(res: string) {
-        this.response.innerHTML = res;
+        (this.responseArea).innerHTML = res;
     }
+
 }
